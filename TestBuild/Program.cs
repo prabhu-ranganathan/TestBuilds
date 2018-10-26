@@ -21,5 +21,6 @@ namespace TestBuild
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
                 .Build();
+
     }
 }
