@@ -12,7 +12,7 @@ namespace TestBuild.Pages
 
         public void OnGet()
         {
-            Message = "Your contact page.";
+            Message1 = "Your contact page.";
         }
     }
 }
