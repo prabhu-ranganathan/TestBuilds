@@ -6,6 +6,6 @@ namespace TesBuild.Tests
     public class UnitTest1
     {
         [Fact]
-        public void Test1() => Assert.True(false1);
+        public void Test1() => Assert.True(false);
     }
 }
