@@ -1,15 +1,47 @@
 #tool "nuget:?package=xunit.runner.console"
+#tool "nuget:?package=GitVersion.CommandLine"
 
 var target = Argument("target","Default");
-var configuration = Argument("Configuration", "Debug");
+var configuration = Argument("buildConfiguration", "Debug");
+
+var solutionfile="TestBuild.sln"
 
 Task("Default")
 .IsDependentOn("Tests");
 
-Task("Build")
+Task("Clean")
+.Does(()=> 
+{
+foreach(var platform in supportedPlatforms)
+{
+    MSBuild(solutionfile, configurator =>
+    configurator.SetConfiguration(buildConfiguration)
+    .SetVerbosity(Verbosity.Quiet)
+    .SetMSBuildPlatform(MSBuildPlatform.x86)
+    .WithTarget("Clean")
+});
+
+Task("Versioning")
+.IsDependentOn("Clean")
 .Does(()=>
 {
-    MSBuild("TestBuild.sln");
+    GitVersion(new GitVersionSettings {
+        UpdateAssemblyInfo=true
+    });
+});
+
+Task("NugetPackageRestore")
+.IsDependentOn("Versioning")
+.Does(()=>
+{
+    NugetRestore(solutionfile)
+});
+
+Task("Build")
+.IsDependentOn("NugetPackageRestore")
+.Does(()=>
+{
+    MSBuild(solutionfile);
 });
 
 Task("Tests")
@@ -23,7 +55,7 @@ Task("Tests")
             DotNetCoreTool(
                 projectPath: project.FullPath, 
                 command: "xunit", 
-                arguments: $"-configuration {configuration} -diagnostics -stoponfail"
+                arguments: $"-configuration {buildConfiguration} -diagnostics -stoponfail"
             );
         }
     });
