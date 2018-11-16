@@ -11,7 +11,6 @@ pipeline
                 echo "Clearing out the existing workspaces"
                 cleanWs()
                 echo 'Check-out from Git SCM'
-                #!checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/prabhu-ranganathan/TestBuilds']]])
                 checkout scm
                 echo "code copied to workspace location : ${workspace}"
             }
