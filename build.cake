@@ -69,4 +69,19 @@ Task("Tests")
             );
         }
     });
+
+Task("UnitTests")
+    .Does(() =>
+    {
+         Information("Start running on Unit Tests");
+        var projects = GetFiles("./TesBuild.Tests/*.csproj");
+        foreach(var project in projects)
+        {
+            DotNetCoreTool(
+                projectPath: project.FullPath, 
+                command: "xunit", 
+                arguments: $"-configuration {buildConfiguration} -diagnostics -stoponfail"
+            );
+        }
+    });
 RunTarget(target);
