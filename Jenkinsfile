@@ -20,7 +20,7 @@ pipeline
             steps{
                 echo 'Initializing the build'
                 bat "echo Current workspace is ${workspace}"
-                bat "powershell.exe -file ./build.ps1 -Configuration Debug -Target Build"
+                bat "powershell.exe -ExecutionPolicy ByPass -file ./build.ps1 -Configuration Debug -Target Build"
                 echo 'End of the build'
             }
         }
