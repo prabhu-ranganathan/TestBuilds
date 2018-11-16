@@ -20,10 +20,8 @@ pipeline
             steps{
                 echo 'Initializing the build'
                 bat "echo Current workspace is ${workspace}"
-                bat "D:\\nuget\\nuget.exe restore TestBuild.sln"
-                bat "\"${tool 'msbuild core'}\" TestBuild\\TestBuild.csproj"
+                bat "powershell.exe -file ./build.ps1 -Configuration Debug -Target Build"
                 echo 'End of the build'
-
             }
         }
         stage('Deploy')
