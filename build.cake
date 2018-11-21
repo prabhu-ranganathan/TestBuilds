@@ -84,4 +84,22 @@ Task("UnitTests")
             );
         }
     });
+
+Task("Pack")
+//.IsDependentOn("Build")
+.Does(()=>
+{
+    var nuGetPackSettings = new NuGetPackSettings {
+        Id = "CakeDemo",
+        Version = "0.0.0.2",
+        Title = "Cake Demo",
+        Properties = new Dictionary<string, string>
+		{
+			{ "Configuration", "Release" }
+		},
+        IncludeReferencedProjects = true,
+        OutputDirectory = "./nuget"
+    };
+    NuGetPack("./TesBuild.Tests/TesBuild.Tests.csproj",nuGetPackSettings);
+});
 RunTarget(target);

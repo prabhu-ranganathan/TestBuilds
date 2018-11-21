@@ -30,10 +30,11 @@ pipeline
                 bat "echo End of Unit Testing"
             }
         }
-        stage('Deploy')
+        stage('Package')
         {
             steps{
-                echo 'Deploy'
+                echo 'Creating nuGet package'
+                 bat "powershell.exe -ExecutionPolicy ByPass -file ./build.ps1 -Configuration Debug -Target Pack"
             }
         }
     }
